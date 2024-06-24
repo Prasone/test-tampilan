@@ -7,7 +7,7 @@ import time
 import os
 import subprocess
 import netifaces as ni
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 
 from flask import Flask, render_template, Response
 from imutils.video import VideoStream
@@ -27,21 +27,21 @@ faceCascade = cv2.CascadeClassifier(cascadePath)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-motorA1 = 27
-motorA2 = 22
-motorB1 = 23
-motorB2 = 24
-motorC1 = 25
-motorC2 = 8
+# motorA1 = 27
+# motorA2 = 22
+# motorB1 = 23
+# motorB2 = 24
+# motorC1 = 25
+# motorC2 = 8
 
-GPIO.setwarnings(False)
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(motorA1, GPIO.OUT)
-GPIO.setup(motorA2, GPIO.OUT)
-GPIO.setup(motorB1, GPIO.OUT)
-GPIO.setup(motorB2, GPIO.OUT)
-GPIO.setup(motorC1, GPIO.OUT)
-GPIO.setup(motorC2, GPIO.OUT)
+# GPIO.setwarnings(False)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(motorA1, GPIO.OUT)
+# GPIO.setup(motorA2, GPIO.OUT)
+# GPIO.setup(motorB1, GPIO.OUT)
+# GPIO.setup(motorB2, GPIO.OUT)
+# GPIO.setup(motorC1, GPIO.OUT)
+# GPIO.setup(motorC2, GPIO.OUT)
 
 ni.ifaddresses("wlan0")
 # ni.ifaddresses('{AAE133D9-DAD5-481C-8E22-0E07102471C0}') #wifi
@@ -129,12 +129,12 @@ def generate():
 @app.route('/maju')
 def maju():
 
-    GPIO.output(motorA1, GPIO.HIGH)
-    GPIO.output(motorA2, GPIO.LOW)
-    GPIO.output(motorB1, GPIO.HIGH)
-    GPIO.output(motorB2, GPIO.LOW)
-    GPIO.output(motorC1, GPIO.LOW)
-    GPIO.output(motorC2, GPIO.LOW)
+    # GPIO.output(motorA1, GPIO.HIGH)
+    # GPIO.output(motorA2, GPIO.LOW)
+    # GPIO.output(motorB1, GPIO.HIGH)
+    # GPIO.output(motorB2, GPIO.LOW)
+    # GPIO.output(motorC1, GPIO.LOW)
+    # GPIO.output(motorC2, GPIO.LOW)
 
     return render_template('index.html', ip=ip)
 
@@ -142,12 +142,12 @@ def maju():
 @app.route('/mundur')
 def mundur():
 
-    GPIO.output(motorA1, GPIO.LOW)
-    GPIO.output(motorA2, GPIO.HIGH)
-    GPIO.output(motorB1, GPIO.LOW)
-    GPIO.output(motorB2, GPIO.HIGH)
-    GPIO.output(motorC1, GPIO.LOW)
-    GPIO.output(motorC2, GPIO.LOW)
+    # GPIO.output(motorA1, GPIO.LOW)
+    # GPIO.output(motorA2, GPIO.HIGH)
+    # GPIO.output(motorB1, GPIO.LOW)
+    # GPIO.output(motorB2, GPIO.HIGH)
+    # GPIO.output(motorC1, GPIO.LOW)
+    # GPIO.output(motorC2, GPIO.LOW)
 
     return render_template('index.html', ip=ip)
 
@@ -155,12 +155,12 @@ def mundur():
 @app.route('/kanan')
 def kanan():
 
-    GPIO.output(motorA1, GPIO.LOW)
-    GPIO.output(motorA2, GPIO.LOW)
-    GPIO.output(motorB1, GPIO.HIGH)
-    GPIO.output(motorB2, GPIO.LOW)
-    GPIO.output(motorC1, GPIO.LOW)
-    GPIO.output(motorC2, GPIO.LOW)
+    # GPIO.output(motorA1, GPIO.LOW)
+    # GPIO.output(motorA2, GPIO.LOW)
+    # GPIO.output(motorB1, GPIO.HIGH)
+    # GPIO.output(motorB2, GPIO.LOW)
+    # GPIO.output(motorC1, GPIO.LOW)
+    # GPIO.output(motorC2, GPIO.LOW)
 
     return render_template('index.html', ip=ip)
 
@@ -168,24 +168,24 @@ def kanan():
 @app.route('/kiri')
 def kiri():
 
-    GPIO.output(motorA1, GPIO.HIGH)
-    GPIO.output(motorA2, GPIO.LOW)
-    GPIO.output(motorB1, GPIO.LOW)
-    GPIO.output(motorB2, GPIO.LOW)
-    GPIO.output(motorC1, GPIO.LOW)
-    GPIO.output(motorC2, GPIO.LOW)
+    # GPIO.output(motorA1, GPIO.HIGH)
+    # GPIO.output(motorA2, GPIO.LOW)
+    # GPIO.output(motorB1, GPIO.LOW)
+    # GPIO.output(motorB2, GPIO.LOW)
+    # GPIO.output(motorC1, GPIO.LOW)
+    # GPIO.output(motorC2, GPIO.LOW)
 
     return render_template('index.html', ip=ip)
 
 
 @app.route('/berhenti')
 def berhenti():
-    GPIO.output(motorA1, GPIO.LOW)
-    GPIO.output(motorA2, GPIO.LOW)
-    GPIO.output(motorB1, GPIO.LOW)
-    GPIO.output(motorB2, GPIO.LOW)
-    GPIO.output(motorC1, GPIO.LOW)
-    GPIO.output(motorC2, GPIO.LOW)
+    # GPIO.output(motorA1, GPIO.LOW)
+    # GPIO.output(motorA2, GPIO.LOW)
+    # GPIO.output(motorB1, GPIO.LOW)
+    # GPIO.output(motorB2, GPIO.LOW)
+    # GPIO.output(motorC1, GPIO.LOW)
+    # GPIO.output(motorC2, GPIO.LOW)
     return render_template('index.html', ip=ip)
 
 

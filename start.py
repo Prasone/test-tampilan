@@ -18,7 +18,7 @@ from imutils.video import VideoStream
 outputFrame = None
 lock = threading.Lock()
 # initialize a flask object
-app = Flask(__name__)
+app = Flask(__name__,static_url_path='/static')
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('recognizer/training_data.yml')
@@ -43,9 +43,9 @@ font = cv2.FONT_HERSHEY_SIMPLEX
 # GPIO.setup(motorC1, GPIO.OUT)
 # GPIO.setup(motorC2, GPIO.OUT)
 
-ni.ifaddresses("wlan0")
+ni.ifaddresses("lo")
 # ni.ifaddresses('{AAE133D9-DAD5-481C-8E22-0E07102471C0}') #wifi
-ip = ni.ifaddresses("wlan0")[ni.AF_INET][0]["addr"]
+ip = ni.ifaddresses("lo")[ni.AF_INET][0]["addr"]
 
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
@@ -69,7 +69,7 @@ def detect_motion(frameCount):
         # read the next frame from the video stream, resize it,
         # convert the frame to grayscale, and blur it
         frame = vs.read()
-        frame = imutils.resize(frame, width=700)  # width= 400
+        frame = cv2.resize(frame, (820, 450))
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (7, 7), 0)
         # grab the current timestamp and draw it on the frame

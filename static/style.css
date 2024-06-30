@@ -1,3 +1,5 @@
+*,
+
 body {
     font-family: 'Times New Roman', Times, serif;
     padding: 0%;
@@ -5,25 +7,23 @@ body {
 }
 
 .background-image {
-    background:  src="{{ url_for('static', filename='BG-Omni.png') }}";
-    background-size: cover;
+    background: url(images/BG-Omni.png);
     background-repeat: no-repeat;
-    height: 90vh;
-    background-position: center;
-    padding-top: 4%;
-}
-
-.img {
-    width: 780px;
-    height: 360px;
+    background-position: center; 
+    background-size: cover; 
+    height: 100vh; 
+    width: 100vw; 
 }
 
 .container {
     margin-top: 1%;
     border: 6px dashed green;
     height: 40vh;
-    width: 40%;
-    padding-top: 2%;
+    max-width: 400px;
+}
+
+.text-center {
+    margin-bottom: 1%;
 }
 
 .up {
@@ -50,15 +50,27 @@ body {
     width: 90px
 }
 
+.col-2 {
+    margin-left: 45%;
+    margin-top: -5%;
+}
+
+.col-1 {
+    margin-left: 45%;
+    margin-top: -1%;
+}
+
+
+.col-3 {
+    left: 38%;
+    margin-right: -10%;
+    margin-top: -4%;
+}
+
+
 .refresh:hover{
     color: #333333;
 }
-
-.col-2 {
-    margin-left: 40%;
-    margin-top: -15px;
-}
-
 
 button:hover {
     box-shadow: 30%;
@@ -69,47 +81,16 @@ button:hover {
     -o-transform: scale(1.2)  ;
 }
 
-.col-1 {
-    margin-left: 40%;
-    margin-top: -4%;
-}
-
-
-.col-3 {
-
-    margin-top: -3%;
-    width: 20%;
-    margin-left: 10%;
-    padding-left: 17%;
-}
-
-
-.stick {
-    width: 50px;
-    height: 50px;
-    background-color: #333;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s;
-}
-
-
 .stop,
 .refresh {
+    margin-top: 4%;
     width: 20%;
 }
 
 footer {
-    height: auto;
     background-color: rgb(113, 113, 173);
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 3%;
+    margin-top: 4%;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -118,6 +99,14 @@ footer {
 .logo {
     height: 50%;
     width: 40px;
+}
+
+.foo {
+    margin-left: 40%;
+}
+
+.box {
+    padding-right: -50%;
 }
 
 /* X-Small devices (portrait phones, less than 576px) */
@@ -134,32 +123,31 @@ footer {
         margin-top: 15%;
         padding-top: 5%;
         border: 4px dashed green;
-        height: 40%;
-        width: 90%;
+        max-width: 90%; 
+        height: 50%;
     }
 
-    .img{
-        height: auto;
-        width: auto;
+    .text-center {
+        margin-bottom: 0%;
+    }
+    
+    .col-1 {
+        padding-top: -5%;
+        margin-left: 36%;
     }
 
-    .stick {
-        width: 45px;
-        height: 45px;
-    }
+    .col-2 {
+        margin-left: 36%;
+        padding-top: 6%;
+        margin-bottom: 5%;
 
-
-    .col-1,.col-2{
-        margin-left: 37%;
-        margin-top: 0%;
     }
 
     .col-3 {
         width: 40%;
-        padding-top: 5%;
-        padding-left: 25%;
-        margin-left: 0%;
-        margin-right: -10%;
+        margin-left: 12%;
+        margin-top: 0%;
+        left: 10%;
     }
   
     .up,
@@ -188,73 +176,10 @@ footer {
         bottom: 0;
         width: 100%;
     }
-}
 
-/* X-Small devices (landscape phones, less than 576px) */
-@media (min-width: 576px) and (max-width: 767.98px) and (orientation: landscape) {
-    body {
-        
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .container {
-        margin-top: 10%;
-        padding-top: 5%;
-        border: 4px dashed green;
-        height: 40VH;
-        width: 80%;
-    }
-
-    .img{
-        height: auto;
-        width: auto;
-    }
-
-    .stick {
-        width: 50px;
-        height: 50px;
-    }
-
-
-    .col-1,.col-2{
-        margin-left: 30%;
-        margin-top: 0%;
-    }
-
-    .col-3 {
-        width: 30%;
-        padding-top: 5%;
-        padding-left: 20%;
+    .foo {
+        padding-right: 0%;
         margin-left: 0%;
-        margin-right: -10%;
-    }
-  
-    .up,
-    .back {
-        height: 200%;
-        width: 80px;
-    }
-
-    .left,
-    .right {
-        height: 200%;
-        margin-left: 10%;
-        width: 70px;
-    }
-
-    .stop,
-    .refresh {
-        width: 30%;
-        margin-top: 10%;
-    }
-
-    .footer{
-        margin-top: -15%;
-        height: 10vh;
-        position: fixed;
-        bottom: 0;
         width: 100%;
     }
 }

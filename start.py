@@ -7,7 +7,11 @@ import time
 import os
 import subprocess
 import netifaces as ni
-# import RPi.GPIO as GPIO
+import gpiod
+
+# Set up the GPIO chip
+chip = gpiod.Chip('gpiochip0') 
+
 
 from flask import Flask, render_template, Response
 from imutils.video import VideoStream
@@ -18,7 +22,7 @@ from imutils.video import VideoStream
 outputFrame = None
 lock = threading.Lock()
 # initialize a flask object
-app = Flask(__name__,static_url_path='/static')
+app = Flask(__name__)
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read('recognizer/training_data.yml')
@@ -27,30 +31,38 @@ faceCascade = cv2.CascadeClassifier(cascadePath)
 
 font = cv2.FONT_HERSHEY_SIMPLEX
 
-# motorA1 = 27
-# motorA2 = 22
-# motorB1 = 23
-# motorB2 = 24
-# motorC1 = 25
-# motorC2 = 8
+# GPIO OUTPUT
+motorA1 = 27
+motorA2 = 22
+motorB1 = 23
+motorB2 = 24
+motorC1 = 25
+motorC2 = 8
 
-# GPIO.setwarnings(False)
-# GPIO.setmode(GPIO.BCM)
-# GPIO.setup(motorA1, GPIO.OUT)
-# GPIO.setup(motorA2, GPIO.OUT)
-# GPIO.setup(motorB1, GPIO.OUT)
-# GPIO.setup(motorB2, GPIO.OUT)
-# GPIO.setup(motorC1, GPIO.OUT)
-# GPIO.setup(motorC2, GPIO.OUT)
+# GPIO DEFENITE MOTORS
+motorA1_line = chip.get_line(motorA1)
+motorA2_line = chip.get_line(motorA2)
+motorB1_line = chip.get_line(motorB1)
+motorB2_line = chip.get_line(motorB2)
+motorC1_line = chip.get_line(motorC1)
+motorC2_line = chip.get_line(motorC2)
 
-ni.ifaddresses("lo")
+motorA1_line.request(consumer='motorA1', type=gpiod.LINE_REQ_DIR_OUT)
+motorA2_line.request(consumer='motorA2', type=gpiod.LINE_REQ_DIR_OUT)
+motorB1_line.request(consumer='motorB1', type=gpiod.LINE_REQ_DIR_OUT)
+motorB2_line.request(consumer='motorB2', type=gpiod.LINE_REQ_DIR_OUT)
+motorC1_line.request(consumer='motorC1', type=gpiod.LINE_REQ_DIR_OUT)
+motorC2_line.request(consumer='motorC2', type=gpiod.LINE_REQ_DIR_OUT)
+
+# Wifi Connection
+ni.ifaddresses("wlan0")
 # ni.ifaddresses('{AAE133D9-DAD5-481C-8E22-0E07102471C0}') #wifi
-ip = ni.ifaddresses("lo")[ni.AF_INET][0]["addr"]
+ip = ni.ifaddresses("wlan0")[ni.AF_INET][0]["addr"]
 
 vs = VideoStream(src=0).start()
 time.sleep(2.0)
 
-
+# Route Parameter Website
 @app.route("/")
 def index():
     # return the rendered template
@@ -69,7 +81,7 @@ def detect_motion(frameCount):
         # read the next frame from the video stream, resize it,
         # convert the frame to grayscale, and blur it
         frame = vs.read()
-        frame = cv2.resize(frame, (820, 450))
+        frame = imutils.resize(frame, width=700)  # width= 400
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (7, 7), 0)
         # grab the current timestamp and draw it on the frame
@@ -126,69 +138,69 @@ def generate():
                bytearray(encodedImage) + b'\r\n')
 
 
+# Route parameter maju
 @app.route('/maju')
 def maju():
-
-    # GPIO.output(motorA1, GPIO.HIGH)
-    # GPIO.output(motorA2, GPIO.LOW)
-    # GPIO.output(motorB1, GPIO.HIGH)
-    # GPIO.output(motorB2, GPIO.LOW)
-    # GPIO.output(motorC1, GPIO.LOW)
-    # GPIO.output(motorC2, GPIO.LOW)
+    motorA1_line.set_value(1)
+    motorA2_line.set_value(0)
+    motorB1_line.set_value(1)
+    motorB2_line.set_value(0)
+    motorC1_line.set_value(0)
+    motorC2_line.set_value(0)
 
     return render_template('index.html', ip=ip)
 
-
+# Route parameter mundur
 @app.route('/mundur')
 def mundur():
 
-    # GPIO.output(motorA1, GPIO.LOW)
-    # GPIO.output(motorA2, GPIO.HIGH)
-    # GPIO.output(motorB1, GPIO.LOW)
-    # GPIO.output(motorB2, GPIO.HIGH)
-    # GPIO.output(motorC1, GPIO.LOW)
-    # GPIO.output(motorC2, GPIO.LOW)
+    motorA1_line.set_value(0)
+    motorA2_line.set_value(1)
+    motorB1_line.set_value(0)
+    motorB2_line.set_value(1)
+    motorC1_line.set_value(0)
+    motorC2_line.set_value(0)
 
     return render_template('index.html', ip=ip)
 
-
+# Route parameter kanan
 @app.route('/kanan')
 def kanan():
 
-    # GPIO.output(motorA1, GPIO.LOW)
-    # GPIO.output(motorA2, GPIO.LOW)
-    # GPIO.output(motorB1, GPIO.HIGH)
-    # GPIO.output(motorB2, GPIO.LOW)
-    # GPIO.output(motorC1, GPIO.LOW)
-    # GPIO.output(motorC2, GPIO.LOW)
+    motorA1_line.set_value(0)
+    motorA2_line.set_value(0)
+    motorB1_line.set_value(1)
+    motorB2_line.set_value(0)
+    motorC1_line.set_value(0)
+    motorC2_line.set_value(0)
 
     return render_template('index.html', ip=ip)
 
-
+# Route parameter kiri
 @app.route('/kiri')
 def kiri():
 
-    # GPIO.output(motorA1, GPIO.HIGH)
-    # GPIO.output(motorA2, GPIO.LOW)
-    # GPIO.output(motorB1, GPIO.LOW)
-    # GPIO.output(motorB2, GPIO.LOW)
-    # GPIO.output(motorC1, GPIO.LOW)
-    # GPIO.output(motorC2, GPIO.LOW)
+    motorA1_line.set_value(1)
+    motorA2_line.set_value(0)
+    motorB1_line.set_value(0)
+    motorB2_line.set_value(0)
+    motorC1_line.set_value(0)
+    motorC2_line.set_value(0)
 
     return render_template('index.html', ip=ip)
 
-
+# Route parameter berhenti
 @app.route('/berhenti')
 def berhenti():
-    # GPIO.output(motorA1, GPIO.LOW)
-    # GPIO.output(motorA2, GPIO.LOW)
-    # GPIO.output(motorB1, GPIO.LOW)
-    # GPIO.output(motorB2, GPIO.LOW)
-    # GPIO.output(motorC1, GPIO.LOW)
-    # GPIO.output(motorC2, GPIO.LOW)
+    motorA1_line.set_value(0)
+    motorA2_line.set_value(0)
+    motorB1_line.set_value(0)
+    motorB2_line.set_value(0)
+    motorC1_line.set_value(0)
+    motorC2_line.set_value(0)
     return render_template('index.html', ip=ip)
 
-
+# Route parameter video feed / untuk melihat video
 @app.route("/video_feed")
 def video_feed():
     # return the response generated along with the specific media
@@ -215,6 +227,6 @@ if __name__ == "__main__":
     t.start()
     # start the flask app
     # app.run(host=args["ip"], port=args["port"], debug=True, threaded=True, use_reloader=False)
-    app.run(host='0.0.0.0', port=5000) #debug true is added by fauzi
+    app.run(host='0.0.0.0', port=5000, threaded=True, debug=True)
 # release the video stream pointer
 vs.stop()
